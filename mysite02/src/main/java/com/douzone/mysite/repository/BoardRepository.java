@@ -194,6 +194,67 @@ public class BoardRepository {
 		return boardVo;
 	}
 	
+	public void updateHit(int boardNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "update board set hit = (hit+1) where no = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1,boardNo);
+
+			pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public boolean deleteBoard(int boardNo) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "delete from board where no = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, boardNo);
+			
+			int count = pstmt.executeUpdate();
+
+			result = count == 1;
+			
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 		try {
