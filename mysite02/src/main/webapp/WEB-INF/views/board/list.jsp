@@ -33,17 +33,17 @@
 					<c:forEach items='${list }' var='vo' varStatus='status'>
 						<tr>
 							<td>${count-status.index}</td>
-							<c:choose>
-								<c:when test="${vo.orderNo > 1}">
-									<td style="text-align:left; padding-left:${20*vo.depth}px">
-										<img src='/mysite02/assets/images/reply.png'> <a href="">${vo.title }</a>
-									</td>
-								</c:when>
-								<c:otherwise>
-									<td style="text-align:left; padding-left:${0*0}px"><a
-										href="">${vo.title }</a></td>
-								</c:otherwise>
-							</c:choose>
+								<c:choose>
+									<c:when test="${vo.orderNo > 1}">
+										<td style="text-align:left; padding-left:${20*vo.depth}px">
+											<img src='/mysite02/assets/images/reply.png'>
+									</c:when>
+									<c:otherwise>
+										<td style="text-align:left; padding-left:${0*0}px">
+									</c:otherwise>
+								</c:choose>
+								<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a>
+							</td>
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>

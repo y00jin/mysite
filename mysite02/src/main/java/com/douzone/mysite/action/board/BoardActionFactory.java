@@ -11,6 +11,8 @@ public class BoardActionFactory extends ActionFactory {
 			return new ListAction();
 		} else {
 			switch (actionName) {
+			case "view":
+				return new ViewAction();
 			case "list":
 				return new ListAction();
 			default:

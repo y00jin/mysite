@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.douzone.mysite.vo.BoardVo;
 import com.douzone.mysite.vo.GuestbookVo;
+import com.douzone.mysite.vo.UserVo;
 
 public class BoardRepository {
 
@@ -113,6 +114,47 @@ public class BoardRepository {
 		return result;
 	}
 
+	public BoardVo findTitleContents(int authUserNo) {
+		BoardVo boardVo = null;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "select title,contents from board where no = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setLong(1, authUserNo);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				String title = rs.getString(1);
+				String contents = rs.getString(2);
+
+				boardVo = new BoardVo();
+				boardVo.setTitle(title);
+				boardVo.setContents(contents);;
+			}
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return boardVo;
+	}
 	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
