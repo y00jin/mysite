@@ -148,10 +148,9 @@ public class UserRepository {
 			pstmt.setString(3, vo.getGender());
 			pstmt.setString(4, vo.getEmail());
 
-			userVo = new UserVo();
-			userVo.setName(vo.getName());
-			userVo.setPassword(vo.getPassword());
-			userVo.setGender(vo.getGender());
+			pstmt.executeUpdate();
+			
+			userVo = vo;
 			
 		} catch (SQLException e) {
 			System.out.println("error : " + e);

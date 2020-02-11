@@ -27,7 +27,7 @@ public class UpdateAction implements Action {
 		userVo.setEmail(email);
 		userVo.setPassword(password);
 		userVo.setGender(gender);
-
+		
 		UserVo authUser =  new UserRepository().updateNamePasswordGender(userVo);
 		HttpSession session = request.getSession(true);
 		session.setAttribute("authUser", authUser);
