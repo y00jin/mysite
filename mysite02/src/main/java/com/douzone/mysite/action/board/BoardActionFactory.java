@@ -1,9 +1,9 @@
-package com.douzone.mysite.action.guestbook;
+package com.douzone.mysite.action.board;
 
 import com.douzone.web.action.Action;
 import com.douzone.web.action.ActionFactory;
 
-public class GuestbookActionFactory extends ActionFactory {
+public class BoardActionFactory extends ActionFactory {
 
 	@Override
 	public Action getAction(String actionName) {
@@ -11,12 +11,6 @@ public class GuestbookActionFactory extends ActionFactory {
 			return new ListAction();
 		} else {
 			switch (actionName) {
-			case "add":
-				return new AddAction();
-			case "deleteform":
-				return new DeleteFormAction();
-			case "delete":
-				return new DeleteAction();
 			case "list":
 				return new ListAction();
 			default:
