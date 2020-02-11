@@ -125,6 +125,7 @@ public class GuestbookRepository {
 		return result;
 	}
 
+	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 		try {

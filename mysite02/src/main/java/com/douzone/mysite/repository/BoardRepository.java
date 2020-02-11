@@ -64,9 +64,9 @@ public class BoardRepository {
 		try {
 			conn = getConnection();
 
-			String sql = "select no,title,contents,hit,reg_date,g_no,o_no,depth,user_no," + 
-					" (select a.name from user a,board b where a.no = b.no) as user_name from board" + 
-					" order by g_no desc, o_no asc";
+			String sql = "select b.no,b.title,b.contents,b.hit,b.reg_date,b.g_no,b.o_no,b.depth,a.no,a.name " + 
+					"from user a,board b " + 
+					"where a.no = b.user_no order by g_no desc, o_no asc";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -114,7 +114,7 @@ public class BoardRepository {
 		return result;
 	}
 
-	public BoardVo findTitleContents(int authUserNo) {
+	public BoardVo findNo(int authUserNo) {
 		BoardVo boardVo = null;
 
 		Connection conn = null;
@@ -124,7 +124,7 @@ public class BoardRepository {
 		try {
 			conn = getConnection();
 
-			String sql = "select title,contents from board where no = ?";
+			String sql = "select no,user_no,title,contents from board where no = ?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setLong(1, authUserNo);
@@ -132,12 +132,16 @@ public class BoardRepository {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				String title = rs.getString(1);
-				String contents = rs.getString(2);
+				int no = rs.getInt(1);
+				int userNo = rs.getInt(2);
+				String title = rs.getString(3);
+				String contents = rs.getString(4);
 
 				boardVo = new BoardVo();
+				boardVo.setNo(no);
+				boardVo.setUserNo(userNo);
 				boardVo.setTitle(title);
-				boardVo.setContents(contents);;
+				boardVo.setContents(contents);
 			}
 		} catch (SQLException e) {
 			System.out.println("error : " + e);
@@ -145,6 +149,40 @@ public class BoardRepository {
 			try {
 				if (rs != null)
 					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return boardVo;
+	}
+	
+	public BoardVo updateBoard(BoardVo vo) {
+		BoardVo boardVo = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "update board set title=?, contents=? where no = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContents());
+			pstmt.setInt(3, vo.getNo());
+
+			pstmt.executeUpdate();
+			
+			boardVo = vo;
+			
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
 				if (pstmt != null)
 					pstmt.close();
 				if (conn != null)
