@@ -67,13 +67,12 @@
 				<!-- pager 추가 -->
 
 				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
+					<a href="${pageContext.request.contextPath }/board?a=write" id="new-book">글쓰기</a>
 				</div>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
-			<c:param name="menu" value="board" />
-		</c:import>
+		<c:param name="menu" value="board" /></c:import>
 		<c:import url="/WEB-INF/views/includes/footer.jsp" />
 	</div>
 </body>

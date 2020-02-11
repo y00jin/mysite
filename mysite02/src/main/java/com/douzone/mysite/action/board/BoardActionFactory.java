@@ -15,6 +15,8 @@ public class BoardActionFactory extends ActionFactory {
 				return new ViewAction();
 			case "list":
 				return new ListAction();
+			case "write":
+				return new WriteAction();
 			default:
 				return new ListAction();
 			}

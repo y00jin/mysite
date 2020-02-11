@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.douzone.mysite.repository.BoardRepository;
 import com.douzone.mysite.vo.BoardVo;
 import com.douzone.web.action.Action;
+import com.douzone.web.util.WebUtil;
 
 public class ViewAction implements Action {
 
@@ -20,8 +21,7 @@ public class ViewAction implements Action {
 		
 		BoardVo boardVo = new BoardRepository().findTitleContents(Integer.parseInt(no));
 		request.setAttribute("content", boardVo);
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/view.jsp");
-		rd.forward(request, response);
+		WebUtil.forward("/WEB-INF/views/board/view.jsp", request, response);
 		
 	}
 
