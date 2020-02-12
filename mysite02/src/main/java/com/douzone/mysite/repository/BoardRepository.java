@@ -81,7 +81,6 @@ public class BoardRepository {
 		}
 		return result;
 	}
-
 	
 	public boolean insertInList(BoardVo boardVo) {
 		boolean result = false;
@@ -301,7 +300,7 @@ public class BoardRepository {
 		try {
 			conn = getConnection();
 
-			String sql = "delete from board where no = ?";
+			String sql = "update board set user_no = 1 where no = ?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1, boardNo);

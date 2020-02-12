@@ -17,6 +17,11 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="${pageContext.request.contextPath }/board" method="post">
+					<select name="kind">
+		   				 <option value=''selected">-- 선택 --</option>
+		  				  <option value="title">제목</option>
+		  				  <option value="name">글쓴이</option>
+					</select>
 					<input type="text" id="kwd" name="kwd" value=""> 
 					<input type="submit" value="찾기">
 				</form>
@@ -42,8 +47,15 @@
 										<td style="text-align:left; padding-left:${0*0}px">
 									</c:otherwise>
 								</c:choose>
-								<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a>
+								
+								<c:choose>
+									<c:when test="${vo.userNo == 1 }">
+										<a>(작성자가 삭제한 글입니다)</a>
+									</c:when>
+									<c:otherwise>
+										<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a>
 							</td>
+							
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
@@ -52,6 +64,12 @@
 									<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}" class="del">삭제</a>
 								</c:if>
 							</td>
+									</c:otherwise>
+								</c:choose>
+							
+							
+							
+							
 						</tr>
 					</c:forEach>
 				</table>
