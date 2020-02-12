@@ -18,6 +18,8 @@ public class BoardActionFactory extends ActionFactory {
 			case "update": return new UpdateAction();
 			case "updateform": return new UpdateFormAction();
 			case "delete": return new DeleteAction();
+			case "replyform": return new ReplyFormAction();
+			case "reply":	return new ReplyAction();
 			default:
 				return new ListAction();
 			}
