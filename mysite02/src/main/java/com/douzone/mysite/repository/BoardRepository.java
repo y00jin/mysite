@@ -13,27 +13,22 @@ import com.douzone.mysite.vo.GuestbookVo;
 import com.douzone.mysite.vo.UserVo;
 
 public class BoardRepository {
-
-	public boolean insert(BoardVo boardVo) {
+	
+	public boolean insertInList(BoardVo boardVo) {
 		boolean result = false;
 		Connection conn = null;
+		PreparedStatement firstPstmt = null;
 		PreparedStatement pstmt = null;
 
 		try {
 			conn = getConnection();
 
-			String sql = "insert into board values(null,?,?,?,?,?,?,?,?)";
+			String sql = "insert into board values(null,?,?,0,now(),(select ifnull(max(g_no),0)+1 from board a),1,0,?)";
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setInt(1, boardVo.getNo());
-			pstmt.setString(2, boardVo.getTitle());
+			pstmt.setString(1, boardVo.getTitle());
 			pstmt.setString(2, boardVo.getContents());
-			pstmt.setInt(4, boardVo.getHit());
-			pstmt.setString(5, boardVo.getRegDate());
-			pstmt.setInt(5, boardVo.getGroupNo());
-			pstmt.setInt(6, boardVo.getOrderNo());
-			pstmt.setInt(7, boardVo.getDepth());
-			pstmt.setInt(8, boardVo.getUserNo());
+			pstmt.setInt(3, boardVo.getUserNo());
 
 			int count = pstmt.executeUpdate();
 
@@ -66,7 +61,7 @@ public class BoardRepository {
 
 			String sql = "select b.no,b.title,b.contents,b.hit,b.reg_date,b.g_no,b.o_no,b.depth,a.no,a.name " + 
 					"from user a,board b " + 
-					"where a.no = b.user_no order by g_no desc, o_no asc";
+					"where a.no = b.user_no order by g_no desc,o_no asc";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();

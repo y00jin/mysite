@@ -14,8 +14,9 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="/board">
+				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 					<input type = "hidden" name = "a" value="write">
+					<input type = "hidden" name = "authUserNo" value = "${authUser.no }" />
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>

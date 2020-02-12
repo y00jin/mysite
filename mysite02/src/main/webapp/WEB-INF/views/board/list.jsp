@@ -70,9 +70,11 @@
 				</div>
 				<!-- pager 추가 -->
 
-				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board?a=write" id="new-book">글쓰기</a>
-				</div>
+				<c:if test="${authUser.no != null }">
+					<div class="bottom">
+						<a href="${pageContext.request.contextPath }/board?a=writeform&no=${authUser.no}" id="new-book">글쓰기</a>
+					</div>
+				</c:if>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">

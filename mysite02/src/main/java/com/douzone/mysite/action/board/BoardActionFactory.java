@@ -13,6 +13,7 @@ public class BoardActionFactory extends ActionFactory {
 			switch (actionName) {
 			case "view": return new ViewAction();
 			case "list": return new ListAction();
+			case "writeform": return new WriteFormAction();
 			case "write": return new WriteAction();
 			case "update": return new UpdateAction();
 			case "updateform": return new UpdateFormAction();
