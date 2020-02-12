@@ -14,6 +14,75 @@ import com.douzone.mysite.vo.UserVo;
 
 public class BoardRepository {
 	
+	public void updateOrderNo(int orderNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "update board set o_no = (o_no+1) where ? < o_no;";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1,orderNo);
+
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public boolean insertInView(BoardVo boardVo) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "insert into board values(null,?,?,0,now(),?,?+1,?+1,?)";
+			
+//			insert into board values(null,'라면','뭔소리',0,now(),1,o_no+1,depth+1,3);
+			
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, boardVo.getTitle());
+			pstmt.setString(2, boardVo.getContents());
+			pstmt.setInt(3, boardVo.getGroupNo());
+			pstmt.setInt(4, boardVo.getOrderNo());
+			pstmt.setInt(5, boardVo.getDepth());
+			pstmt.setInt(6, boardVo.getUserNo());
+
+			int count = pstmt.executeUpdate();
+
+			result = count == 1;
+
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+	
 	public boolean insertInList(BoardVo boardVo) {
 		boolean result = false;
 		Connection conn = null;
@@ -119,7 +188,7 @@ public class BoardRepository {
 		try {
 			conn = getConnection();
 
-			String sql = "select no,user_no,title,contents from board where no = ?";
+			String sql = "select no,user_no,title,contents,g_no,o_no,depth from board where no = ?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setLong(1, authUserNo);
@@ -131,12 +200,18 @@ public class BoardRepository {
 				int userNo = rs.getInt(2);
 				String title = rs.getString(3);
 				String contents = rs.getString(4);
+				int groupNo = rs.getInt(5);
+				int orderNo = rs.getInt(6);
+				int depth = rs.getInt(7);
 
 				boardVo = new BoardVo();
 				boardVo.setNo(no);
 				boardVo.setUserNo(userNo);
 				boardVo.setTitle(title);
 				boardVo.setContents(contents);
+				boardVo.setGroupNo(groupNo);
+				boardVo.setOrderNo(orderNo);
+				boardVo.setDepth(depth);
 			}
 		} catch (SQLException e) {
 			System.out.println("error : " + e);
