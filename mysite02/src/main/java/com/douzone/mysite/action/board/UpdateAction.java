@@ -26,9 +26,8 @@ public class UpdateAction implements Action {
 		vo.setContents(contents);
 		
 		new BoardRepository().updateBoard(vo);
-		
-		response.sendRedirect(request.getContextPath() + "/board");
-	
+		String referer = request.getHeader("Referer");
+		response.sendRedirect(request.getContextPath() + "/board?a=view&no=" + no);
 	}
 
 }
