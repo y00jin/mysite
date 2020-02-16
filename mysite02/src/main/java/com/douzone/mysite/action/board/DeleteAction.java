@@ -15,11 +15,45 @@ public class DeleteAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String no = request.getParameter("no");
+		String ono = request.getParameter("ono");
+		String gno = request.getParameter("gno");
+		
 		response.setContentType("text/html; charset=UTF-8");
 		
-		new BoardRepository().deleteBoard(Integer.parseInt(no));
+//		new BoardRepository().deleteBoard(Integer.parseInt(no));
 		
-		response.sendRedirect(request.getContextPath() + "/board");
+		int deleteNoDepth = new BoardRepository().selectDepth(Integer.parseInt(ono), Integer.parseInt(gno));
+		int compareNoDepth = new BoardRepository().selectDepth(Integer.parseInt(ono)+1, Integer.parseInt(gno));
+		
+		System.out.println(deleteNoDepth + " / " + compareNoDepth);
+		System.out.println(no);
+		
+		if(compareNoDepth == -1) {
+			new BoardRepository().deleteBoard(no);
+			new BoardRepository().updateMinOrderNo(Integer.parseInt(ono),Integer.parseInt(gno));
+			int maxOrderNo = new BoardRepository().selectMaxOrderNo(Integer.parseInt(gno));
+			new BoardRepository().updateDeleteBoard(maxOrderNo);
+		}
+		if(compareNoDepth == deleteNoDepth) {
+			new BoardRepository().deleteBoard(no);
+			new BoardRepository().updateMinOrderNo(Integer.parseInt(ono),Integer.parseInt(gno));
+			int maxOrderNo = new BoardRepository().selectMaxOrderNo(Integer.parseInt(gno));
+			new BoardRepository().updateDeleteBoard(maxOrderNo);
+		}
+		if(deleteNoDepth != compareNoDepth) {
+			new BoardRepository().updateBoard(Integer.parseInt(no));
+		}
+		if(deleteNoDepth < compareNoDepth) {
+			new BoardRepository().updateBoard(Integer.parseInt(no));
+		}
+		if(deleteNoDepth > compareNoDepth) {
+			new BoardRepository().deleteBoard(no);
+			new BoardRepository().updateMinOrderNo(Integer.parseInt(ono),Integer.parseInt(gno));
+			int maxOrderNo = new BoardRepository().selectMaxOrderNo(Integer.parseInt(gno));
+			new BoardRepository().updateDeleteBoard(maxOrderNo);
+		}
+		
+		response.sendRedirect(request.getContextPath() + "/board?a=list&no=1");
 	}
 
 }

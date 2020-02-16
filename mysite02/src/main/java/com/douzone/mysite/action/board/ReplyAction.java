@@ -34,7 +34,7 @@ public class ReplyAction implements Action {
 		new BoardRepository().updateOrderNo(Integer.parseInt(orderNo));
 		new BoardRepository().insertInView(vo);
 		
-		response.sendRedirect(request.getContextPath() + "/board");
+		response.sendRedirect(request.getContextPath() + "/board?a=list&no=1");
 		
 		
 	}

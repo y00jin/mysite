@@ -23,9 +23,14 @@ public class WriteAction implements Action {
 		vo.setTitle(title);
 		vo.setContents(contents);
 		
-		new BoardRepository().insertInList(vo);
+		if(title.length() == 0 || contents.length() == 0) {
+			response.sendRedirect(request.getContextPath() + "/board?a=list&no=1");
+			return;
+		} else {
+			new BoardRepository().insertInList(vo);
+		}
 		
-		response.sendRedirect(request.getContextPath() + "/board");
+		response.sendRedirect(request.getContextPath() + "/board?a=list&no=1");
 		
 	}
 

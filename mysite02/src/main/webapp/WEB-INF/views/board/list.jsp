@@ -16,7 +16,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.request.contextPath }/board" method="post">
+				<form id="search_form" action="${pageContext.request.contextPath }/board?a=search" method="post">
 					<select name="kind">
 		   				 <option value=''selected">-- 선택 --</option>
 		  				  <option value="title">제목</option>
@@ -34,10 +34,20 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
+					
+					<c:choose>
+						<c:when test="${ListOrSearch == 0}">
+							<c:set var = 'list' value = "${boardList }" />
+						</c:when>
+						<c:when test="${ListOrSearch == 1}">
+							<c:set var = 'list' value = "${searchList }" />
+						</c:when>
+					</c:choose>
+					
 					<c:set var = 'count' value='${fn:length(list) }'/>
-					<c:forEach items='${list }' var='vo' varStatus='status'>
+					<c:forEach items='${list }'  var='vo' varStatus='status'>
 						<tr>
-							<td>${count-status.index}</td>
+							<td>${(pageVo.displayRow*pageNo)-(pageVo.displayRow-count)-status.index}</td>
 								<c:choose>
 									<c:when test="${vo.orderNo > 1}">
 										<td style="text-align:left; padding-left:${20*vo.depth}px">
@@ -49,44 +59,47 @@
 								</c:choose>
 								
 								<c:choose>
-									<c:when test="${vo.userNo == 1 }">
-										<a>(작성자가 삭제한 글입니다)</a>
+									<c:when test="${empty vo.contents}">
+										<a>(원글이 삭제된 글) ${vo.title }</a></td>
+										<td></td><td></td><td></td><td></td>
 									</c:when>
 									<c:otherwise>
 										<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a>
-							</td>
-							
-							<td>${vo.userName }</td>
-							<td>${vo.hit }</td>
-							<td>${vo.regDate }</td>
-							<td>
-								<c:if test="${authUser.no == vo.userNo }">
-									<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}" class="del">삭제</a>
-								</c:if>
-							</td>
+											</td>
+											<td>${vo.userName }</td>
+											<td>${vo.hit }</td>
+											<td>${vo.regDate }</td>
+											<td>
+												<c:if test="${authUser.no == vo.userNo }">
+													<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}&ono=${vo.orderNo}&gno=${vo.groupNo}" class="del">삭제</a>
+												</c:if>
+											</td>
 									</c:otherwise>
 								</c:choose>
-							
-							
-							
-							
-						</tr>
-					</c:forEach>
+							</tr>
+						</c:forEach>							
 				</table>
 
-				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+						<c:if test="${pageVo.thisPage != 1}">
+							<li><a href="${pageContext.request.contextPath }/board?a=list&no=${pageVo.thisPage-1 }&los=${ListOrSearch}">◀</a></li>
+						</c:if>
+						
+						<c:forEach var="i" begin = "${pageVo.startPage }" end = "${pageVo.endPage}" step="1">
+						<c:if test="${i == pageVo.thisPage }">
+							<li class="selected"><a href="${pageContext.request.contextPath }/board?a=list&no=${i }&los=${ListOrSearch}">${i }</a></li>
+						</c:if>
+						<c:if test="${i != pageVo.thisPage }">
+							<li><a href="${pageContext.request.contextPath }/board?a=list&no=${i }&los=${ListOrSearch}">${i }</a></li>
+						</c:if>
+						</c:forEach>
+						
+						<c:if test="${pageVo.thisPage != pageVo.endPage }">
+							<li><a href="${pageContext.request.contextPath }/board?a=list&no=${pageVo.thisPage+1 }&los=${ListOrSearch}">▶</a></li>
+						</c:if>
 					</ul>
 				</div>
-				<!-- pager 추가 -->
 
 				<c:if test="${authUser.no != null }">
 					<div class="bottom">

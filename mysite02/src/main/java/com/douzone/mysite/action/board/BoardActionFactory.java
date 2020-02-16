@@ -20,6 +20,7 @@ public class BoardActionFactory extends ActionFactory {
 			case "delete": return new DeleteAction();
 			case "replyform": return new ReplyFormAction();
 			case "reply":	return new ReplyAction();
+			case "search": return new SearchAction();
 			default:
 				return new ListAction();
 			}
