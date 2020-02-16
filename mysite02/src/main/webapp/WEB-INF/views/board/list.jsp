@@ -71,7 +71,7 @@
 											<td>${vo.regDate }</td>
 											<td>
 												<c:if test="${authUser.no == vo.userNo }">
-													<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}&ono=${vo.orderNo}&gno=${vo.groupNo}" class="del">삭제</a>
+													<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}&ono=${vo.orderNo}&gno=${vo.groupNo}&dep=${vo.depth}" class="del">삭제</a>
 												</c:if>
 											</td>
 									</c:otherwise>

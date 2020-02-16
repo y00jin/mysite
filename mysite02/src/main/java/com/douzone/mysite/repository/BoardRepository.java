@@ -491,7 +491,7 @@ public class BoardRepository {
 		return maxOrderNo;
 	}
 	
-	public boolean updateDeleteBoard(int maxOrderNo) {
+	public boolean updateDeleteBoard(int maxOrderNo, int depth) {
 		boolean result = false;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -499,10 +499,11 @@ public class BoardRepository {
 		try {
 			conn = getConnection();
 
-			String sql = "delete from board where o_no < ? and contents = ''";
+			String sql = "delete from board where o_no < ? and contents = ''  and depth = ?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1, maxOrderNo+1);
+			pstmt.setInt(2, depth-1);
 			
 			int count = pstmt.executeUpdate();
 

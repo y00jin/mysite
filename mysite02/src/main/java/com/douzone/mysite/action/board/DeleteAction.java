@@ -17,6 +17,7 @@ public class DeleteAction implements Action {
 		String no = request.getParameter("no");
 		String ono = request.getParameter("ono");
 		String gno = request.getParameter("gno");
+		String depth = request.getParameter("dep");
 		
 		response.setContentType("text/html; charset=UTF-8");
 		
@@ -32,13 +33,13 @@ public class DeleteAction implements Action {
 			new BoardRepository().deleteBoard(no);
 			new BoardRepository().updateMinOrderNo(Integer.parseInt(ono),Integer.parseInt(gno));
 			int maxOrderNo = new BoardRepository().selectMaxOrderNo(Integer.parseInt(gno));
-			new BoardRepository().updateDeleteBoard(maxOrderNo);
+			new BoardRepository().updateDeleteBoard(maxOrderNo,Integer.parseInt(depth));
 		}
 		if(compareNoDepth == deleteNoDepth) {
 			new BoardRepository().deleteBoard(no);
 			new BoardRepository().updateMinOrderNo(Integer.parseInt(ono),Integer.parseInt(gno));
 			int maxOrderNo = new BoardRepository().selectMaxOrderNo(Integer.parseInt(gno));
-			new BoardRepository().updateDeleteBoard(maxOrderNo);
+			new BoardRepository().updateDeleteBoard(maxOrderNo,Integer.parseInt(depth));
 		}
 		if(deleteNoDepth != compareNoDepth) {
 			new BoardRepository().updateBoard(Integer.parseInt(no));
@@ -50,7 +51,7 @@ public class DeleteAction implements Action {
 			new BoardRepository().deleteBoard(no);
 			new BoardRepository().updateMinOrderNo(Integer.parseInt(ono),Integer.parseInt(gno));
 			int maxOrderNo = new BoardRepository().selectMaxOrderNo(Integer.parseInt(gno));
-			new BoardRepository().updateDeleteBoard(maxOrderNo);
+			new BoardRepository().updateDeleteBoard(maxOrderNo,Integer.parseInt(depth));
 		}
 		
 		response.sendRedirect(request.getContextPath() + "/board?a=list&no=1");
