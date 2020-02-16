@@ -14,7 +14,7 @@ import com.douzone.mysite.vo.UserVo;
 
 public class BoardRepository {
 	
-	public List<BoardVo> searchTitle(String searchTitle, int startPageNo, int displayRow) {
+	public List<BoardVo> searchTitle(String searchTitle) {
 		
 		List<BoardVo> result = new ArrayList<>();
 
@@ -26,13 +26,74 @@ public class BoardRepository {
 			conn = getConnection();
 
 			String sql = "select b.no,b.title,b.contents,b.hit,b.reg_date,b.g_no,b.o_no,b.depth,a.no,a.name " + 
-					"from user a,board b where a.no = b.user_no and b.title like ? order by g_no desc,o_no asc limit ?,?";
+					"from user a,board b where a.no = b.user_no and b.title like ? order by g_no desc,o_no asc";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, "%"+searchTitle+"%");
-			pstmt.setInt(2, ((startPageNo-1)*displayRow));
-			pstmt.setInt(3, displayRow);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				int no = rs.getInt(1);
+				String title = rs.getString(2);
+				String contents = rs.getString(3);
+				int hit = rs.getInt(4);
+				String regDate = rs.getString(5);
+				int groupNo = rs.getInt(6);
+				int orderNo = rs.getInt(7);
+				int depth = rs.getInt(8);
+				int userNo = rs.getInt(9);
+				String userName = rs.getString(10);
+
+				BoardVo vo = new BoardVo();
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setContents(contents);
+				vo.setHit(hit);
+				vo.setRegDate(regDate);
+				vo.setGroupNo(groupNo);
+				vo.setOrderNo(orderNo);
+				vo.setDepth(depth);
+				vo.setUserNo(userNo);
+				vo.setUserName(userName);
+				
+				result.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+public List<BoardVo> searchWriter(String searchWriter) {
+		
+		List<BoardVo> result = new ArrayList<>();
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "select b.no,b.title,b.contents,b.hit,b.reg_date,b.g_no,b.o_no,b.depth,a.no,a.name " + 
+					"from user a,board b where a.no = b.user_no and a.name like ? order by g_no desc,o_no asc";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+searchWriter+"%");
 
 			rs = pstmt.executeQuery();
 

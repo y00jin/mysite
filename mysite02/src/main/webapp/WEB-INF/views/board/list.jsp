@@ -15,10 +15,11 @@
 	<div id="container">
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
+<!-- 			<div id="board" class = "board-form"> -->
 			<div id="board">
 				<form id="search_form" action="${pageContext.request.contextPath }/board?a=search" method="post">
 					<select name="kind">
-		   				 <option value=''selected">-- 선택 --</option>
+		   				 <option value="selected">-- 선택 --</option>
 		  				  <option value="title">제목</option>
 		  				  <option value="name">글쓴이</option>
 					</select>
@@ -45,40 +46,57 @@
 					</c:choose>
 					
 					<c:set var = 'count' value='${fn:length(list) }'/>
-					<c:forEach items='${list }'  var='vo' varStatus='status'>
-						<tr>
-							<td>${(pageVo.displayRow*pageNo)-(pageVo.displayRow-count)-status.index}</td>
-								<c:choose>
-									<c:when test="${vo.orderNo > 1}">
-										<td style="text-align:left; padding-left:${20*vo.depth}px">
-											<img src='/mysite02/assets/images/reply.png'/>
-									</c:when>
-									<c:otherwise>
-										<td style="text-align:left; padding-left:${0*0}px">
-									</c:otherwise>
-								</c:choose>
-								
-								<c:choose>
-									<c:when test="${empty vo.contents}">
-										<a>(원글이 삭제된 글) ${vo.title }</a></td>
-										<td></td><td></td><td></td><td></td>
-									</c:when>
-									<c:otherwise>
-										<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a>
-											</td>
-											<td>${vo.userName }</td>
-											<td>${vo.hit }</td>
-											<td>${vo.regDate }</td>
-											<td>
-												<c:if test="${authUser.no == vo.userNo }">
-													<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}&ono=${vo.orderNo}&gno=${vo.groupNo}&dep=${vo.depth}" class="del">삭제</a>
-												</c:if>
-											</td>
-									</c:otherwise>
-								</c:choose>
-							</tr>
-						</c:forEach>							
+					<c:choose>
+						<c:when test="${count == 0 }">
+						<tr><td colspan="6">검색된 게시물이 존재하지 않습니다.</td></tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach items='${list }'  var='vo' varStatus='status'>
+								<tr>
+									<td>${vo.no}</td>
+										<c:choose>
+											<c:when test="${vo.orderNo > 1}">
+												<td style="text-align:left; padding-left:${20*vo.depth}px">
+													<img src='/mysite02/assets/images/reply.png'/>
+											</c:when>
+											<c:otherwise>
+												<td style="text-align:left; padding-left:${0*0}px">
+											</c:otherwise>
+										</c:choose>
+										
+										<c:choose>
+											<c:when test="${empty vo.contents}">
+												<a>(원글이 삭제된 글) ${vo.title }</a></td>
+												<td></td><td></td><td></td><td></td>
+											</c:when>
+											<c:otherwise>
+												<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a>
+													</td>
+													<td>${vo.userName }</td>
+													<td>${vo.hit }</td>
+													<td>${vo.regDate }</td>
+													<td>
+														<c:if test="${authUser.no == vo.userNo }">
+															<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}&ono=${vo.orderNo}&gno=${vo.groupNo}&dep=${vo.depth}" class="del">삭제</a>
+														</c:if>
+													</td>
+											</c:otherwise>
+										</c:choose>
+									</tr>
+								</c:forEach>							
+						</c:otherwise>
+					</c:choose>
 				</table>
+
+				<c:choose>
+						<c:when test="${ListOrSearch == 0}">
+							<c:set var = 'pageVo' value = "${listPageVo }" />
+						</c:when>
+						<c:when test="${ListOrSearch == 1}">
+							<c:set var = 'pageVo' value = "${searchPageVo }" />
+						</c:when>
+				</c:choose>
+
 
 				<div class="pager">
 					<ul>
@@ -101,11 +119,28 @@
 					</ul>
 				</div>
 
-				<c:if test="${authUser.no != null }">
-					<div class="bottom">
-						<a href="${pageContext.request.contextPath }/board?a=writeform&no=${authUser.no}" id="new-book">글쓰기</a>
-					</div>
-				</c:if>
+
+				<c:choose>
+				
+					<c:when test="${authUser.no != null }">
+						<div class="bottom">
+							<c:if test="${ListOrSearch == 1}">
+								<a href="${pageContext.request.contextPath }/board?a=list&no=1" id="new-book">글목록</a>
+							</c:if>
+							<a href="${pageContext.request.contextPath }/board?a=writeform&no=${authUser.no}" id="new-book">글쓰기</a>
+						</div>					
+					</c:when>
+					
+					<c:otherwise>
+						<div class="bottom">
+							<c:if test="${ListOrSearch == 1}">
+								<a href="${pageContext.request.contextPath }/board?a=list&no=1"  id="new-book">글목록</a>
+							</c:if>
+						</div>					
+					</c:otherwise>
+					
+				</c:choose>
+				
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">

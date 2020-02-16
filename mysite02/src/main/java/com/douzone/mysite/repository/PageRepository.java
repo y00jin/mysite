@@ -25,7 +25,80 @@ public class PageRepository {
 			String sql = "select count(*) from board";
 			
 			pstmt = conn.prepareStatement(sql);
-
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				totalRow = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return totalRow;
+	}
+	
+	public int countSearchBoard(String searchTitle) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int totalRow = 0;
+		
+		try {
+			conn = getConnection();
+			
+			String sql = "select count(*) " + 
+					"from user a,board b " + 
+					"where a.no = b.user_no " + 
+					"and b.title like ? " + 
+					"order by g_no desc,o_no asc";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+searchTitle+"%");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				totalRow = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return totalRow;
+	}
+	public int countSearchName(String searchName) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int totalRow = 0;
+		
+		try {
+			conn = getConnection();
+			
+			String sql = "select count(*) " + 
+					"from user a,board b " + 
+					"where a.no = b.user_no " + 
+					"and a.name like ? " + 
+					"order by g_no desc,o_no asc";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+searchName+"%");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				totalRow = rs.getInt(1);

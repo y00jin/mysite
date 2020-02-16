@@ -23,7 +23,7 @@ public class WriteAction implements Action {
 		vo.setTitle(title);
 		vo.setContents(contents);
 		
-		if(title.length() == 0 || contents.length() == 0) {
+		if(title.replaceAll("\\s", "").length() == 0 || contents.replaceAll("\\s", "").length() == 0) {
 			response.sendRedirect(request.getContextPath() + "/board?a=list&no=1");
 			return;
 		} else {

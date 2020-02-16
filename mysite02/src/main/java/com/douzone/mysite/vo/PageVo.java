@@ -3,7 +3,7 @@ package com.douzone.mysite.vo;
 public class PageVo {
 
 	// 한 페이지에 보열줄 행
-	private int displayRow = 5;
+	private int displayRow = 10;
 	// 시작하는 행 번호
 	private int startRow;
 	// 끝나는 행 번호
