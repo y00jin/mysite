@@ -47,7 +47,7 @@
 					
 					<c:set var = 'count' value='${fn:length(list) }'/>
 					<c:choose>
-						<c:when test="${count == 0 }">
+						<c:when test="${count == 0 && ListOrSearch == 1}">
 						<tr><td colspan="6">검색된 게시물이 존재하지 않습니다.</td></tr>
 						</c:when>
 						<c:otherwise>
