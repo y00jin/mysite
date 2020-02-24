@@ -20,7 +20,7 @@ public class UserController {
 	
 	@RequestMapping(value="/join", method=RequestMethod.GET)
 	public String join() {
-		return "/user/join";
+		return "user/join";
 	}
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
