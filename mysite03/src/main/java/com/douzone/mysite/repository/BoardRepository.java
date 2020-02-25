@@ -1,18 +1,24 @@
 package com.douzone.mysite.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.douzone.mysite.vo.BoardVo;
-import com.douzone.mysite.vo.GuestbookVo;
-import com.douzone.mysite.vo.UserVo;
+import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.douzone.mysite.vo.BoardVo;
+
+@Repository
 public class BoardRepository {
+	
+	@Autowired
+	private DataSource dataSource;
 	
 	public List<BoardVo> searchTitle(String searchTitle) {
 		
@@ -23,7 +29,7 @@ public class BoardRepository {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "select b.no,b.title,b.contents,b.hit,b.reg_date,b.g_no,b.o_no,b.depth,a.no,a.name " + 
 					"from user a,board b where a.no = b.user_no and b.title like ? order by g_no desc,o_no asc";
@@ -86,7 +92,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "select b.no,b.title,b.contents,b.hit,b.reg_date,b.g_no,b.o_no,b.depth,a.no,a.name " + 
 					"from user a,board b where a.no = b.user_no and a.name like ? order by g_no desc,o_no asc";
@@ -145,7 +151,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "update board set o_no = (o_no+1) where ? < o_no;";
 			pstmt = conn.prepareStatement(sql);
@@ -173,7 +179,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "update board set o_no = (o_no-1) where ? < o_no and g_no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -203,7 +209,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "insert into board values(null,?,?,0,now(),?,?+1,?+1,?)";
 			
@@ -243,7 +249,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "insert into board values(null,?,?,0,now(),(select ifnull(max(g_no),0)+1 from board a),1,0,?)";
 			pstmt = conn.prepareStatement(sql);
@@ -279,7 +285,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "select b.no,b.title,b.contents,b.hit,b.reg_date,b.g_no,b.o_no,b.depth,a.no,a.name " + 
 					"from user a,board b " + 
@@ -339,7 +345,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "select no,user_no,title,contents,g_no,o_no,depth from board where no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -389,7 +395,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "update board set title=?, contents=? where no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -422,7 +428,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "update board set hit = (hit+1) where no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -454,7 +460,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "select depth from board where o_no=? and g_no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -490,7 +496,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "delete from board where no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -523,7 +529,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		int maxOrderNo = 0;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "select max(o_no) from board where contents='' and g_no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -558,7 +564,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "delete from board where o_no < ? and contents = ''  and depth = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -591,7 +597,7 @@ public List<BoardVo> searchWriter(String searchWriter) {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "update board set contents='' where no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -615,18 +621,5 @@ public List<BoardVo> searchWriter(String searchWriter) {
 			}
 		}
 		return result;
-	}
-	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-
-			String url = "jdbc:mysql://192.168.1.103:3307/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패 : " + e);
-		}
-		return conn;
 	}
 }

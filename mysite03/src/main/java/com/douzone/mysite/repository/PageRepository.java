@@ -1,18 +1,24 @@
 package com.douzone.mysite.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.douzone.mysite.vo.BoardVo;
 
 // 페이지용 DAO
 public class PageRepository {
 
+	@Autowired
+	private DataSource dataSource;
+	
 	public int countBoard() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -20,7 +26,7 @@ public class PageRepository {
 		int totalRow = 0;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "select count(*) from board";
 			
@@ -53,7 +59,7 @@ public class PageRepository {
 		int totalRow = 0;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			String sql = "select count(*) " + 
 					"from user a,board b " + 
@@ -89,7 +95,7 @@ public class PageRepository {
 		int totalRow = 0;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			String sql = "select count(*) " + 
 					"from user a,board b " + 
@@ -127,7 +133,7 @@ public class PageRepository {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = "select b.no,b.title,b.contents,b.hit,b.reg_date,b.g_no,b.o_no,b.depth,a.no,a.name " + 
 					"from user a,board b " + 
@@ -180,19 +186,6 @@ public class PageRepository {
 			}
 		}
 		return result;
-	}
-	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-
-			String url = "jdbc:mysql://192.168.1.103:3307/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패 : " + e);
-		}
-		return conn;
 	}
 	
 }

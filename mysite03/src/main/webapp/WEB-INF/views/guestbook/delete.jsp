@@ -18,7 +18,12 @@
 					<input type="hidden" value = "${no }" name="no">
 					<label>비밀번호</label>
 					<input type="password" name="password">
-					<input type="submit" value="확인">
+					<input type="submit" value="확인" onclick="return deleteChk();">
+					<script type="text/javascript">
+						function deleteChk() {
+							return confirm("방명록을 삭제하시겠습니까?");
+						}
+					</script>
 				</form>
 				<a href="${pageContext.request.contextPath }/guestbook/list">방명록 리스트</a>
 			</div>

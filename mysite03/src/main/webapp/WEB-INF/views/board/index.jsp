@@ -17,7 +17,7 @@
 		<div id="content">
 <!-- 			<div id="board" class = "board-form"> -->
 			<div id="board">
-				<form id="search_form" action="${pageContext.request.contextPath }/board?a=search" method="post">
+				<form id="search_form" action="${pageContext.request.contextPath }/board/search" method="post">
 					<select name="kind">
 		   				 <option value="selected">-- 선택 --</option>
 		  				  <option value="title">제목</option>
