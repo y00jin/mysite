@@ -18,13 +18,10 @@
 <!-- 			<div id="board" class = "board-form"> -->
 			<div id="board">
 				<form id="search_form" action="${pageContext.request.contextPath }/board/search" method="post">
-					<select name="kind">
-		   				 <option value="selected">-- 선택 --</option>
-		  				  <option value="title">제목</option>
-		  				  <option value="name">글쓴이</option>
-					</select>
+					<p><input type="checkbox" id="title">제목
+					<input type="checkbox" id="name">글쓴이
 					<input type="text" id="kwd" name="kwd" value=""> 
-					<input type="submit" value="찾기">
+					<input type="submit" value="찾기"></p>
 				</form>
 				<table class="tbl-ex">
 					<tr>
@@ -57,7 +54,7 @@
 										<c:choose>
 											<c:when test="${vo.orderNo > 1}">
 												<td style="text-align:left; padding-left:${20*vo.depth}px">
-													<img src='/mysite02/assets/images/reply.png'/>
+													<img src='/mysite03/assets/images/reply.png'/>
 											</c:when>
 											<c:otherwise>
 												<td style="text-align:left; padding-left:${0*0}px">

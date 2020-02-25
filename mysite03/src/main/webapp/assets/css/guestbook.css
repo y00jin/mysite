@@ -4,11 +4,11 @@
 #guestbook			{ margin:20px auto;	width:540px; }
 
 #guestbook form, 
-#guestbook table	{ width:100% }
+#guestbook table	{ width:100%; border-collapse: collapse; border: 1px solid }
 
 #guestbook table,	
 #guestbook table td { border:1px solid #333 }
-#guestbook table td { padding:5px }
+#guestbook table td { padding:10px }
 
 #guestbook ul		{ width:100%; margin-top:20px }
 #guestbook ul li	{ width:100%; margin-top:10px }

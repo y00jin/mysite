@@ -18,14 +18,13 @@
 			<div id="content">
 				<div id="site-introduction">
 					<img id="profile"
-						src="${pageContext.request.contextPath }/assets/images/eong.jpg"
-						style="width: 200px">
-					<h2>안녕하냥 에옹이 mysite다냥</h2>
+						src="${pageContext.request.contextPath }/assets/images/main.PNG"
+						style="width: 540px">
+					<h2>MYSTIE</h2>
 					<p>
-						이 사이트는 웹 프로그램밍 실습과제 예제 사이트다냥<br> 메뉴는 사이트 소개, 방명록, 게시판이 있구요.
-						Java 수업 + 데이터베이스 수업 + 웹프로그래밍 수업 배운 거 있는거 없는 거 다 합쳐서 만들어 놓은 사이트
-						입니다.<br>
-						<br> <a href="${pageContext.request.contextPath }/guestbook">방명록</a>에 글 남기기<br>
+						이 사이트는 프로그램밍 예제 사이트입니다.<br> 메뉴는 사이트 소개ㆍ방명록ㆍ게시판이 있고,<br>
+						1월부터 지금까지 배운 모든 것들을 합쳐 만든 사이트입니다.<br><br>
+						<a href="${pageContext.request.contextPath }/guestbook">방명록</a>에 글 남기기<br>
 					</p>
 				</div>
 			</div>
