@@ -19,7 +19,7 @@
 						return confirm("로그아웃 하시겠습니까?");
 					}
 				</script>
-				<li>${authUser.name }님</li>
+				<li><a href="#">${authUser.name }님</a></li>
 			</c:otherwise>
 		</c:choose>
 	</ul>

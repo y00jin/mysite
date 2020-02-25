@@ -12,9 +12,8 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public boolean join(UserVo vo) {
-		boolean count = userRepository.insert(vo);
-		return count;
+	public int join(UserVo vo) {
+		return userRepository.insert(vo);
 	}
 
 	public UserVo getUser(UserVo vo) {
