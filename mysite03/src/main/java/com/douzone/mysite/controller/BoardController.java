@@ -39,12 +39,24 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String write(HttpSession session, Model model) {
+	public String write(HttpSession session) {
 		//////////////////////////// 접근제어////////////////////////////
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if (authUser == null)
 			return "redirect:/";
 		///////////////////////////////////////////////////////////////
+		return "board/write";
+	}
+
+	@RequestMapping(value = "/reply/{no}", method = RequestMethod.GET)
+	public String reply(HttpSession session, @PathVariable("no") Long no, Model model) {
+		////////////////////////////접근제어////////////////////////////
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (authUser == null)
+			return "redirect:/";
+		///////////////////////////////////////////////////////////////
+		BoardVo rootVo = boardService.findBoardByNo(no);
+		model.addAttribute("rootVo",rootVo);
 		return "board/write";
 	}
 
@@ -55,13 +67,17 @@ public class BoardController {
 		if (authUser == null)
 			return "redirect:/";
 		///////////////////////////////////////////////////////////////
-		vo.setUserNo(authUser.getNo());
 		boardService.write(vo);
 		return "redirect:/board";
 	}
 
 	@RequestMapping(value = "/delete/{no}")
-	public String delete(@PathVariable("no") Long no) {
+	public String delete(HttpSession session, @PathVariable("no") Long no) {
+		////////////////////////////접근제어////////////////////////////
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (authUser == null)
+		return "redirect:/";
+		///////////////////////////////////////////////////////////////
 		boardService.delete(no);
 		return "redirect:/board";
 	}

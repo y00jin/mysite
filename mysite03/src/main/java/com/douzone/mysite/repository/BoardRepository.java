@@ -44,8 +44,12 @@ public class BoardRepository {
 		return sqlSession.update("board.modify", vo);
 	}
 
+	public void updateOrderNo(Long orderNo) {
+		sqlSession.update("board.updateOrderNo", orderNo);
+	}
 	
 	/*
+
 	public List<BoardVo> searchTitle(String searchTitle) {
 		
 		List<BoardVo> result = new ArrayList<>();
@@ -171,35 +175,10 @@ public class BoardRepository {
 		}
 		return result;
 	}
+	*/
 	
-	public void updateOrderNo(int orderNo) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			conn = dataSource.getConnection();
-
-			String sql = "update board set o_no = (o_no+1) where ? < o_no;";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setInt(1,orderNo);
-
-			pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
+	/*
 	public void updateMinOrderNo(int orderNo, int groupNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -228,49 +207,10 @@ public class BoardRepository {
 			}
 		}
 	}
+
 	
-	public boolean insertInView(BoardVo boardVo) {
-		boolean result = false;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			conn = dataSource.getConnection();
-
-			String sql = "insert into board values(null,?,?,0,now(),?,?+1,?+1,?)";
-			
-//			insert into board values(null,'라면','뭔소리',0,now(),1,o_no+1,depth+1,3);
-			
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, boardVo.getTitle());
-			pstmt.setString(2, boardVo.getContents());
-			pstmt.setInt(3, boardVo.getGroupNo());
-			pstmt.setInt(4, boardVo.getOrderNo());
-			pstmt.setInt(5, boardVo.getDepth());
-			pstmt.setInt(6, boardVo.getUserNo());
-
-			int count = pstmt.executeUpdate();
-
-			result = count == 1;
-
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}
 	
 		
-	
 	
 	public int selectDepth(int ono, int gno) {
 		int depth = -1;
@@ -412,6 +352,5 @@ public class BoardRepository {
 		}
 		return result;
 	}
-
 	*/
 }

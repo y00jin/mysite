@@ -40,7 +40,7 @@
 					<a href="${pageContext.request.contextPath }/board/modify/${content.no}">글수정</a>
 					</c:if>
 					<c:if test="${authUser.no != null }">
-					<a href="${pageContext.request.contextPath }/board?a=replyform&no=${vo.no}&gNo=${content.groupNo}&oNo=${content.orderNo}&depth=${content.depth}">답글쓰기</a>
+					<a href="${pageContext.request.contextPath }/board/reply/${content.no}">답글쓰기</a>
 					</c:if>
 				</div>
 			</div>

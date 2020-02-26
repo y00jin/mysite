@@ -35,11 +35,27 @@
 	</select>
 	
 	<insert id="write" parameterType="boardvo">
-		<![CDATA[
-			insert into board 
-			values(null,#{title },#{contents },0,now(),(select ifnull(max(g_no),0)+1 from board a),1,0,#{userNo })
-		]]>
+		<choose>
+			<when test="groupNo == null">
+				<![CDATA[
+					insert into board 
+					values(null,#{title },#{contents },0,now(),(select ifnull(max(g_no),0)+1 from board a),1,0,#{userNo })
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					insert into board 
+					values(null,#{title },#{contents },0,now(),#{groupNo },#{orderNo }+1,#{depth }+1,#{userNo })
+				]]>
+			</otherwise>
+		</choose>
 	</insert>
+	
+	<update id="updateOrderNo" parameterType="long">
+		<![CDATA[
+			update board set o_no = (o_no+1) where #{orderNo} < o_no
+		]]>	
+	</update>
 	
 	<update id="updateHit" parameterType="long">
 		<![CDATA[
