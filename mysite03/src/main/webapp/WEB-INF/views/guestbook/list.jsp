@@ -39,7 +39,7 @@
 						<ul>
 							<li>
 								<table>
-									<tr>
+									<tr id = "guestbook" class = "list">
 										<td width=20 style="word-break:break-all; text-align:center">${count - status.index }</td>
 										<td>${vo.name }</td>
 										<td width=100 style="word-break:break-all; text-align:center">${vo.regTime }</td>
