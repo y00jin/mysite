@@ -18,14 +18,12 @@ public class GuestbookService {
 		return guestbookRepository.findAll();
 	}
 	
-	public boolean add(GuestbookVo vo) {
-		boolean count = guestbookRepository.insert(vo);
-		return count;
+	public int add(GuestbookVo vo) {
+		return guestbookRepository.insert(vo);
 	}
 
-	public boolean delete(GuestbookVo vo) {
-		boolean count = guestbookRepository.delete(vo);
-		return count;
+	public int delete(GuestbookVo vo) {
+		return guestbookRepository.delete(vo);
 	}
 	
 }

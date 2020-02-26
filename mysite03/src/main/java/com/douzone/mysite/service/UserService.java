@@ -24,8 +24,9 @@ public class UserService {
 		return userRepository.findByNo(no);
 	}
 
-	public UserVo update(UserVo userVo) {
-		return userRepository.updateNamePasswordGender(userVo);
+	public boolean update(UserVo userVo) {
+		int count =  userRepository.update(userVo);
+		return count == 1;
 	}
 	
 

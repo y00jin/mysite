@@ -40,10 +40,12 @@
 							<li>
 								<table>
 									<tr>
-										<td>${count - status.index }</td>
+										<td width=20 style="word-break:break-all; text-align:center">${count - status.index }</td>
 										<td>${vo.name }</td>
-										<td>${vo.regTime }</td>
-										<td><a href="${pageContext.request.contextPath }/guestbook/delete/${vo.no }">삭제</a></td>
+										<td width=100 style="word-break:break-all; text-align:center">${vo.regTime }</td>
+										<td width=25 style="word-break:break-all; text-align:center">
+											<a href="${pageContext.request.contextPath }/guestbook/delete/${vo.no }">
+											<img src='/mysite03/assets/images/recycle.png'/></a></td>
 									</tr>
 									<tr>
 										<td colspan=4>

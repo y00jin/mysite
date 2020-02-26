@@ -86,6 +86,7 @@ public class UserController {
 		if (authUser == null)
 			return "redirect:/";
 		///////////////////////////////////////////////////////////////
+		vo.setNo(authUser.getNo());
 		userService.update(vo);
 		session.setAttribute("authUser", vo);
 		return "redirect:/";
