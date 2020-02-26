@@ -1,13 +1,13 @@
 @CHARSET "UTF-8";
 @import "mysite.css";
 
-#guestbook			{ margin:20px auto;	width:540px; }
+#guestbook			{ margin:20px auto;	width:540px;}
 
 #guestbook form, 
-#guestbook table	{ width:100%; border-collapse: collapse; border: 1px solid }
+#guestbook table	{ width:100%; border-collapse: collapse; border: 1px solid}
 
 #guestbook table,	
-#guestbook table td { border:1px solid #333}
+#guestbook table td { border:1px solid #333 }
 #guestbook table td { padding:10px}
 
 #guestbook table tr.list {background-color: #DEE1E5}

@@ -18,6 +18,8 @@ public class BoardService {
 		return boardRepository.findAll();
 	}
 	
-	
+	public BoardVo getView(Long no) {
+		return boardRepository.viewFinder(no);
+	}
 	
 }

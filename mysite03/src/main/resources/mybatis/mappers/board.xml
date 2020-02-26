@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	<select id="findAll" resultType="boardvo">
+		<![CDATA[
+			select b.no as no,
+				b.title as title,
+				b.contents as contents,
+				b.hit as hit,
+				date_format(b.reg_date, '%Y-%m-%d %h:%i') as regDate,
+				b.g_no as groupNo,
+				b.o_no as orderNo,
+				b.depth as depth,
+				a.no as userNo,
+				a.name as userName
+			from user a,board b
+			where a.no = b.user_no 
+			order by g_no desc,o_no asc
+		]]>
+	</select>
+	
+	<select id="viewFinder" resultType="boardvo">
+		<![CDATA[
+			select no,
+				user_no as userNo,
+				title,
+				contents,
+				g_no as groupNo,
+				o_no as orderNo,
+				depth 
+			from board 
+			where no = #{no }
+		]]>
+	</select>
+</mapper>

@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,10 @@ public class BoardRepository {
 	
 	@Autowired
 	private DataSource dataSource;
+	
+	@Autowired
+	private SqlSession sqlSession;
+	
 	
 	public List<BoardVo> searchTitle(String searchTitle) {
 		
@@ -83,7 +88,7 @@ public class BoardRepository {
 		return result;
 	}
 	
-public List<BoardVo> searchWriter(String searchWriter) {
+	public List<BoardVo> searchWriter(String searchWriter) {
 		
 		List<BoardVo> result = new ArrayList<>();
 
@@ -278,114 +283,13 @@ public List<BoardVo> searchWriter(String searchWriter) {
 	}
 
 	public List<BoardVo> findAll() {
-		List<BoardVo> result = new ArrayList<>();
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			conn = dataSource.getConnection();
-
-			String sql = "select b.no,b.title,b.contents,b.hit,b.reg_date,b.g_no,b.o_no,b.depth,a.no,a.name " + 
-					"from user a,board b " + 
-					"where a.no = b.user_no order by g_no desc,o_no asc";
-			pstmt = conn.prepareStatement(sql);
-
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				int no = rs.getInt(1);
-				String title = rs.getString(2);
-				String contents = rs.getString(3);
-				int hit = rs.getInt(4);
-				String regDate = rs.getString(5);
-				int groupNo = rs.getInt(6);
-				int orderNo = rs.getInt(7);
-				int depth = rs.getInt(8);
-				int userNo = rs.getInt(9);
-				String userName = rs.getString(10);
-
-				BoardVo vo = new BoardVo();
-				vo.setNo(no);
-				vo.setTitle(title);
-				vo.setContents(contents);
-				vo.setHit(hit);
-				vo.setRegDate(regDate);
-				vo.setGroupNo(groupNo);
-				vo.setOrderNo(orderNo);
-				vo.setDepth(depth);
-				vo.setUserNo(userNo);
-				vo.setUserName(userName);
-				
-				result.add(vo);
-			}
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		List<BoardVo> result = sqlSession.selectList("board.findAll");
 		return result;
 	}
 
-	public BoardVo findNo(int authUserNo) {
-		BoardVo boardVo = null;
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			conn = dataSource.getConnection();
-
-			String sql = "select no,user_no,title,contents,g_no,o_no,depth from board where no = ?";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setLong(1, authUserNo);
-
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				int no = rs.getInt(1);
-				int userNo = rs.getInt(2);
-				String title = rs.getString(3);
-				String contents = rs.getString(4);
-				int groupNo = rs.getInt(5);
-				int orderNo = rs.getInt(6);
-				int depth = rs.getInt(7);
-
-				boardVo = new BoardVo();
-				boardVo.setNo(no);
-				boardVo.setUserNo(userNo);
-				boardVo.setTitle(title);
-				boardVo.setContents(contents);
-				boardVo.setGroupNo(groupNo);
-				boardVo.setOrderNo(orderNo);
-				boardVo.setDepth(depth);
-			}
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+	public BoardVo viewFinder(Long boardNo) {
+		System.out.println(boardNo);
+		BoardVo boardVo = sqlSession.selectOne("board.viewFinder", boardNo);
 		return boardVo;
 	}
 	

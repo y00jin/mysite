@@ -22,9 +22,9 @@
 					<table>
 						<tr>
 							<td>이름</td>
-							<td><input type="text" name="name"></td>
+							<td><input type="text" name="name" style="border:none"></td>
 							<td>비밀번호</td>
-							<td><input type="password" name="password"></td>
+							<td><input type="password" name="password" style="border:none"></td>
 						</tr>
 						<tr>
 							<td colspan=4><textarea name="contents" id="content"></textarea></td>

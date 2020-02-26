@@ -67,7 +67,7 @@
 												<td></td><td></td><td></td><td></td>
 											</c:when>
 											<c:otherwise>
-												<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a>
+												<a href="${pageContext.request.contextPath }/board/view/${vo.no}">${vo.title }</a>
 													</td>
 													<td>${vo.userName }</td>
 													<td>${vo.hit }</td>
@@ -122,7 +122,7 @@
 					<c:when test="${authUser.no != null }">
 						<div class="bottom">
 							<c:if test="${ListOrSearch == 1}">
-								<a href="${pageContext.request.contextPath }/board?a=list&no=1" id="new-book">글목록</a>
+								<a href="${pageContext.request.contextPath }/board" id="new-book">글목록</a>
 							</c:if>
 							<a href="${pageContext.request.contextPath }/board?a=writeform&no=${authUser.no}" id="new-book">글쓰기</a>
 						</div>					
@@ -131,7 +131,7 @@
 					<c:otherwise>
 						<div class="bottom">
 							<c:if test="${ListOrSearch == 1}">
-								<a href="${pageContext.request.contextPath }/board?a=list&no=1"  id="new-book">글목록</a>
+								<a href="${pageContext.request.contextPath }/board" id="new-book">글목록</a>
 							</c:if>
 						</div>					
 					</c:otherwise>
