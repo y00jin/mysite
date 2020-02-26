@@ -33,4 +33,52 @@
 			where no = #{no }
 		]]>
 	</select>
+	
+	<insert id="write" parameterType="boardvo">
+		<![CDATA[
+			insert into board 
+			values(null,#{title },#{contents },0,now(),(select ifnull(max(g_no),0)+1 from board a),1,0,#{userNo })
+		]]>
+	</insert>
+	
+	<update id="updateHit" parameterType="long">
+		<![CDATA[
+			update board set hit = (hit+1) where no = #{boardNo }
+		]]>	
+	</update>
+	
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+			delete from board where no = #{no }
+		]]>
+	</delete>
+	
+	<update id="modify" parameterType = "boardvo">
+		<choose>
+			<when test='title != "" and contents != ""'>
+				<![CDATA[
+					update board 
+					set title=#{title }, contents=#{contents } 
+					where no = #{no }
+				]]>
+			</when>
+			<when test='title != "" and contents == ""'>
+				<![CDATA[
+					update board 
+					set title=#{title }
+					where no = #{no }
+				]]>
+			</when>
+			<when test='title == "" and contents != ""'>
+				<![CDATA[
+					update board 
+					set contents=#{contents } 
+					where no = #{no }
+				]]>
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</update>
+	
 </mapper>

@@ -74,7 +74,7 @@
 													<td>${vo.regDate }</td>
 													<td>
 														<c:if test="${authUser.no == vo.userNo }">
-															<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}&ono=${vo.orderNo}&gno=${vo.groupNo}&dep=${vo.depth}" class="del">삭제</a>
+															<a href="${pageContext.request.contextPath }/board/delete/${vo.no}" class = "del">삭제</a>
 														</c:if>
 													</td>
 											</c:otherwise>
@@ -118,13 +118,12 @@
 
 
 				<c:choose>
-				
 					<c:when test="${authUser.no != null }">
 						<div class="bottom">
 							<c:if test="${ListOrSearch == 1}">
 								<a href="${pageContext.request.contextPath }/board" id="new-book">글목록</a>
 							</c:if>
-							<a href="${pageContext.request.contextPath }/board?a=writeform&no=${authUser.no}" id="new-book">글쓰기</a>
+							<a href="${pageContext.request.contextPath }/board/write" id="new-book">글쓰기</a>
 						</div>					
 					</c:when>
 					

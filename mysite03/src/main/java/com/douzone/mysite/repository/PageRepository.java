@@ -146,7 +146,7 @@ public class PageRepository {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				int no = rs.getInt(1);
+				Long no = rs.getLong(1);
 				String title = rs.getString(2);
 				String contents = rs.getString(3);
 				int hit = rs.getInt(4);
@@ -154,7 +154,7 @@ public class PageRepository {
 				int groupNo = rs.getInt(6);
 				int orderNo = rs.getInt(7);
 				int depth = rs.getInt(8);
-				int userNo = rs.getInt(9);
+				Long userNo = rs.getLong(9);
 				String userName = rs.getString(10);
 
 				BoardVo vo = new BoardVo();

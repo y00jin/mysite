@@ -1,13 +1,6 @@
 package com.douzone.mysite.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +12,40 @@ import com.douzone.mysite.vo.BoardVo;
 public class BoardRepository {
 	
 	@Autowired
-	private DataSource dataSource;
-	
-	@Autowired
 	private SqlSession sqlSession;
+
+	// 리스트
+	public List<BoardVo> findAll() {
+		List<BoardVo> result = sqlSession.selectList("board.findAll");
+		return result;
+	}
+
+	// view
+	public BoardVo findBoardByNo(Long boardNo) {
+		BoardVo boardVo = sqlSession.selectOne("board.viewFinder", boardNo);
+		return boardVo;
+	}
 	
+	public void updateHit(Long boardNo) {
+		sqlSession.update("board.updateHit",boardNo);
+	}
 	
+	// write
+	public int write(BoardVo boardVo) {
+		return sqlSession.insert("board.write",boardVo);
+	}
+	
+	// delete
+	public int delete(Long no) {
+		return sqlSession.delete("board.delete",no);
+	}
+	
+	public int modify(BoardVo vo) {
+		return sqlSession.update("board.modify", vo);
+	}
+
+	
+	/*
 	public List<BoardVo> searchTitle(String searchTitle) {
 		
 		List<BoardVo> result = new ArrayList<>();
@@ -46,7 +67,7 @@ public class BoardRepository {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				int no = rs.getInt(1);
+				Long no = rs.getLong(1);
 				String title = rs.getString(2);
 				String contents = rs.getString(3);
 				int hit = rs.getInt(4);
@@ -109,7 +130,7 @@ public class BoardRepository {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				int no = rs.getInt(1);
+				Long no = rs.getLong(1);
 				String title = rs.getString(2);
 				String contents = rs.getString(3);
 				int hit = rs.getInt(4);
@@ -248,113 +269,8 @@ public class BoardRepository {
 		return result;
 	}
 	
-	public boolean insertInList(BoardVo boardVo) {
-		boolean result = false;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			conn = dataSource.getConnection();
-
-			String sql = "insert into board values(null,?,?,0,now(),(select ifnull(max(g_no),0)+1 from board a),1,0,?)";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, boardVo.getTitle());
-			pstmt.setString(2, boardVo.getContents());
-			pstmt.setInt(3, boardVo.getUserNo());
-
-			int count = pstmt.executeUpdate();
-
-			result = count == 1;
-
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}
-
-	public List<BoardVo> findAll() {
-		List<BoardVo> result = sqlSession.selectList("board.findAll");
-		return result;
-	}
-
-	public BoardVo viewFinder(Long boardNo) {
-		System.out.println(boardNo);
-		BoardVo boardVo = sqlSession.selectOne("board.viewFinder", boardNo);
-		return boardVo;
-	}
+		
 	
-	public BoardVo updateBoard(BoardVo vo) {
-		BoardVo boardVo = null;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			conn = dataSource.getConnection();
-
-			String sql = "update board set title=?, contents=? where no = ?";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, vo.getTitle());
-			pstmt.setString(2, vo.getContents());
-			pstmt.setInt(3, vo.getNo());
-
-			pstmt.executeUpdate();
-			
-			boardVo = vo;
-			
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return boardVo;
-	}
-	
-	public void updateHit(int boardNo) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			conn = dataSource.getConnection();
-
-			String sql = "update board set hit = (hit+1) where no = ?";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setInt(1,boardNo);
-
-			pstmt.executeUpdate();
-			
-			
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
 	public int selectDepth(int ono, int gno) {
 		int depth = -1;
@@ -394,37 +310,7 @@ public class BoardRepository {
 		return depth;
 	}
 	
-	public boolean deleteBoard(String no) {
-		boolean result = false;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			conn = dataSource.getConnection();
-
-			String sql = "delete from board where no = ?";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setInt(1, Integer.parseInt(no));
-			
-			int count = pstmt.executeUpdate();
-
-			result = count == 1;
-			
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}
+	
 	
 	public int selectMaxOrderNo(int gno) {
 		Connection conn = null;
@@ -526,4 +412,6 @@ public class BoardRepository {
 		}
 		return result;
 	}
+
+	*/
 }

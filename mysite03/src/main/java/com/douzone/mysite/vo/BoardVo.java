@@ -2,7 +2,7 @@ package com.douzone.mysite.vo;
 
 public class BoardVo {
 
-	private int no;
+	private Long no;
 	private String title;
 	private String contents;
 	private int hit;
@@ -10,14 +10,14 @@ public class BoardVo {
 	private int groupNo;
 	private int orderNo;
 	private int depth;
-	private int userNo;
+	private Long userNo;
 	private String userName;
 
-	public int getNo() {
+	public Long getNo() {
 		return no;
 	}
 
-	public void setNo(int no) {
+	public void setNo(Long no) {
 		this.no = no;
 	}
 
@@ -77,11 +77,11 @@ public class BoardVo {
 		this.depth = depth;
 	}
 
-	public int getUserNo() {
+	public Long getUserNo() {
 		return userNo;
 	}
 
-	public void setUserNo(int userNo) {
+	public void setUserNo(Long userNo) {
 		this.userNo = userNo;
 	}
 
