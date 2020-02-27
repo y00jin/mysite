@@ -1,6 +1,8 @@
 package com.douzone.mysite.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,11 @@ public class BoardRepository {
 	private SqlSession sqlSession;
 
 	// 리스트
-	public List<BoardVo> findAll() {
-		List<BoardVo> result = sqlSession.selectList("board.findAll");
+	public List<BoardVo> findList(String keyword, String check) {
+		Map<String, Object> param = new HashMap<>();
+        param.put("check", check);
+        param.put("keyword", keyword);
+		List<BoardVo> result = sqlSession.selectList("board.findList", param);
 		return result;
 	}
 

@@ -14,8 +14,8 @@ public class BoardService {
 	@Autowired
 	private BoardRepository boardRepository;
 
-	public List<BoardVo> getBoard() {
-		return boardRepository.findAll();
+	public List<BoardVo> getBoard(String keyword, String check) {
+		return boardRepository.findList(keyword, check);
 	}
 	
 	public BoardVo getView(Long no) {

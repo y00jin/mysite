@@ -10,10 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
 import com.douzone.mysite.vo.UserVo;
+import com.douzone.security.Auth;
 
 @Controller
 @RequestMapping("/board")
@@ -23,9 +25,14 @@ public class BoardController {
 	private BoardService boardService;
 
 	@RequestMapping(value = "")
-	public String index(Model model) {
-		List<BoardVo> list = boardService.getBoard();
+	public String index(
+			@RequestParam(value="chk", required=true, defaultValue ="") String check,
+			@RequestParam(value="kwd", required=true, defaultValue ="") String keyword, 
+			Model model) {
+
+		List<BoardVo> list = boardService.getBoard(keyword, check);
 		model.addAttribute("list", list);
+		model.addAttribute("kwd",keyword);
 		return "board/index";
 	}
 
@@ -37,14 +44,10 @@ public class BoardController {
 		model.addAttribute("content", content);
 		return "board/view";
 	}
-
+	
+	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String write(HttpSession session) {
-		//////////////////////////// 접근제어////////////////////////////
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null)
-			return "redirect:/";
-		///////////////////////////////////////////////////////////////
+	public String write() {
 		return "board/write";
 	}
 
@@ -60,6 +63,7 @@ public class BoardController {
 		return "board/write";
 	}
 
+	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String write(HttpSession session, BoardVo vo) {
 		//////////////////////////// 접근제어////////////////////////////
@@ -71,36 +75,27 @@ public class BoardController {
 		return "redirect:/board";
 	}
 
+	@Auth
 	@RequestMapping(value = "/delete/{no}")
 	public String delete(HttpSession session, @PathVariable("no") Long no) {
-		////////////////////////////접근제어////////////////////////////
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null)
-		return "redirect:/";
-		///////////////////////////////////////////////////////////////
 		boardService.delete(no);
 		return "redirect:/board";
 	}
 
+	@Auth
 	@RequestMapping(value = "/modify/{no}", method = RequestMethod.GET)
 	public String modify(HttpSession session, @PathVariable("no") Long no, Model model) {
-		////////////////////////////접근제어////////////////////////////
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null)
-			return "redirect:/";
-		///////////////////////////////////////////////////////////////
 		BoardVo content = boardService.findBoardByNo(no);
 		model.addAttribute("content", content);
 		return "board/modify";
 	}
 
+	@Auth
 	@RequestMapping(value = "/modify/{no}", method = RequestMethod.POST)
 	public String modify(HttpSession session, BoardVo vo) {
-		////////////////////////////접근제어////////////////////////////
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null)
-		return "redirect:/";
-		///////////////////////////////////////////////////////////////
 		boardService.modify(vo);
 		return "redirect:/board";
 	}

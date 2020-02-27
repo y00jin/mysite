@@ -2,22 +2,68 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="board">
-	<select id="findAll" resultType="boardvo">
-		<![CDATA[
-			select b.no as no,
-				b.title as title,
-				b.contents as contents,
-				b.hit as hit,
-				date_format(b.reg_date, '%Y-%m-%d %h:%i') as regDate,
-				b.g_no as groupNo,
-				b.o_no as orderNo,
-				b.depth as depth,
-				a.no as userNo,
-				a.name as userName
-			from user a,board b
-			where a.no = b.user_no 
-			order by g_no desc,o_no asc
-		]]>
+	<select id="findList" resultType="boardvo" parameterType="hashmap">
+		<choose>
+			<when test='check == "title"'>
+			<![CDATA[
+				select b.no as no,
+					b.title as title,
+					b.contents as contents,
+					b.hit as hit,
+					date_format(b.reg_date, '%Y-%m-%d %h:%i') as regDate,
+					b.g_no as groupNo,
+					b.o_no as orderNo,
+					b.depth as depth,
+					a.no as userNo,
+					a.name as userName
+				from user a,board b
+				where a.no = b.user_no 
+				and b.title like '%${keyword }%'
+				order by
+					g_no desc, 
+					o_no asc
+			]]>
+			</when>
+			<when test='check == "name"'>
+			<![CDATA[
+				select b.no as no,
+					b.title as title,
+					b.contents as contents,
+					b.hit as hit,
+					date_format(b.reg_date, '%Y-%m-%d %h:%i') as regDate,
+					b.g_no as groupNo,
+					b.o_no as orderNo,
+					b.depth as depth,
+					a.no as userNo,
+					a.name as userName
+				from user a,board b
+				where a.no = b.user_no 
+				and a.name like '%${keyword }%'
+				order by
+					g_no desc, 
+					o_no asc
+			]]>
+			</when>
+			<otherwise>
+			<![CDATA[
+				select b.no as no,
+					b.title as title,
+					b.contents as contents,
+					b.hit as hit,
+					date_format(b.reg_date, '%Y-%m-%d %h:%i') as regDate,
+					b.g_no as groupNo,
+					b.o_no as orderNo,
+					b.depth as depth,
+					a.no as userNo,
+					a.name as userName
+				from user a,board b
+				where a.no = b.user_no 
+				order by
+					g_no desc, 
+					o_no asc
+			]]>
+			</otherwise>
+		</choose>
 	</select>
 	
 	<select id="viewFinder" resultType="boardvo">

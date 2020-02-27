@@ -4,6 +4,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
+<script type="text/javascript">
+    function oneCheckbox(a){
+        var obj = document.getElementsByName("chk");
+        for(var i=0; i<obj.length; i++){
+            if(obj[i] != a){
+                obj[i].checked = false;
+            }
+        }
+    }
+</script>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -15,13 +25,14 @@
 	<div id="container">
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
-<!-- 			<div id="board" class = "board-form"> -->
 			<div id="board">
-				<form id="search_form" action="${pageContext.request.contextPath }/board/search" method="post">
-					<p><input type="checkbox" id="title">제목
-					<input type="checkbox" id="name">글쓴이
+				<form id="search_form" action="${pageContext.request.contextPath }/board" method="get">
+					<p>
+					<input type="checkbox" id="check" name = "chk" value="title" onclick="oneCheckbox(this)">제목
+					<input type="checkbox" id="check" name = "chk" value="name" onclick="oneCheckbox(this)">글쓴이
 					<input type="text" id="kwd" name="kwd" value=""> 
-					<input type="submit" value="찾기"></p>
+					<input type="submit" value="찾기">
+					</p>
 				</form>
 				<table class="tbl-ex">
 					<tr>
