@@ -48,6 +48,10 @@
 	<context:annotation-config />
 	<context:component-scan
 		base-package="com.douzone.mysite.controller, com.douzone.mysite.exception" />
+	
+	<!--  mvc resources -->
+	<mvc:resources mapping="/images/**" location="file:/mysite-uploads/" />
+	
 	<!-- ViewResolver 설정 -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

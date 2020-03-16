@@ -22,6 +22,7 @@
 				order by
 					g_no desc, 
 					o_no asc
+				limit #{startIndex }, #{size }
 			]]>
 			</when>
 			<when test='check == "name"'>
@@ -42,6 +43,7 @@
 				order by
 					g_no desc, 
 					o_no asc
+				limit #{startIndex }, #{size }
 			]]>
 			</when>
 			<otherwise>
@@ -61,6 +63,7 @@
 				order by
 					g_no desc, 
 					o_no asc
+				 limit #{startIndex }, #{size }
 			]]>
 			</otherwise>
 		</choose>
@@ -142,5 +145,33 @@
 			</otherwise>
 		</choose>
 	</update>
+	
+	<select id="totalCount" parameterType="hashmap" resultType="integer">
+		<choose>
+			<when test='check == "title"'>
+			<![CDATA[
+				select count(*)
+				from user a,board b
+				where a.no = b.user_no 
+				and b.title like '%${keyword }%'
+			]]>
+			</when>
+			<when test='check == "name"'>
+			<![CDATA[
+				select count(*)
+				from user a,board b
+				where a.no = b.user_no 
+				and a.name like '%${keyword }%'
+			]]>
+			</when>
+			<otherwise>
+			<![CDATA[
+				select count(*)
+				from user a,board b
+				where a.no = b.user_no 
+			]]>
+			</otherwise>
+		</choose>	
+	</select>
 	
 </mapper>

@@ -18,7 +18,7 @@
 			<div id="content">
 				<div id="site-introduction">
 					<img id="profile"
-						src="${pageContext.request.contextPath }/assets/images/main.PNG"
+						src="${pageContext.request.contextPath }/images/20202164154336.PNG"
 						style="width: 540px">
 					<h2>MYSTIE</h2>
 					<p>

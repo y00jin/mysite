@@ -1,6 +1,6 @@
 package com.douzone.mysite.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,13 +26,13 @@ public class BoardController {
 
 	@RequestMapping(value = "")
 	public String index(
+			@RequestParam( value="p", required=true, defaultValue="1") Integer page,
 			@RequestParam(value="chk", required=true, defaultValue ="") String check,
 			@RequestParam(value="kwd", required=true, defaultValue ="") String keyword, 
 			Model model) {
 
-		List<BoardVo> list = boardService.getBoard(keyword, check);
-		model.addAttribute("list", list);
-		model.addAttribute("kwd",keyword);
+		Map<String, Object> map = boardService.getContentsList(page, keyword, check);
+		model.addAllAttributes(map);
 		return "board/index";
 	}
 

@@ -30,7 +30,7 @@
 					<p>
 					<input type="checkbox" id="check" name = "chk" value="title" onclick="oneCheckbox(this)">제목
 					<input type="checkbox" id="check" name = "chk" value="name" onclick="oneCheckbox(this)">글쓴이
-					<input type="text" id="kwd" name="kwd" value=""> 
+					<input type="text" id="kwd" name="kwd" value="${keyword }"> 
 					<input type="submit" value="찾기">
 					</p>
 				</form>
@@ -44,21 +44,7 @@
 						<th>&nbsp;</th>
 					</tr>
 					
-					<c:choose>
-						<c:when test="${ListOrSearch == 0}">
-							<c:set var = 'list' value = "${boardList }" />
-						</c:when>
-						<c:when test="${ListOrSearch == 1}">
-							<c:set var = 'list' value = "${searchList }" />
-						</c:when>
-					</c:choose>
-					
-					<c:set var = 'count' value='${fn:length(list) }'/>
-					<c:choose>
-						<c:when test="${count == 0 && ListOrSearch == 1}">
-						<tr><td colspan="6">검색된 게시물이 존재하지 않습니다.</td></tr>
-						</c:when>
-						<c:otherwise>
+					<c:set var = 'count' value='${fn:length(map.list) }'/>
 							<c:forEach items='${list }'  var='vo' varStatus='status'>
 								<tr>
 									<td>${vo.no}</td>
@@ -91,58 +77,43 @@
 											</c:otherwise>
 										</c:choose>
 									</tr>
-								</c:forEach>							
-						</c:otherwise>
-					</c:choose>
+								</c:forEach>	
 				</table>
-
-				<c:choose>
-						<c:when test="${ListOrSearch == 0}">
-							<c:set var = 'pageVo' value = "${listPageVo }" />
-						</c:when>
-						<c:when test="${ListOrSearch == 1}">
-							<c:set var = 'pageVo' value = "${searchPageVo }" />
-						</c:when>
-				</c:choose>
-
-
 				<div class="pager">
 					<ul>
-						<c:if test="${pageVo.thisPage != 1}">
-							<li><a href="${pageContext.request.contextPath }/board?a=list&no=${pageVo.thisPage-1 }&los=${ListOrSearch}">◀</a></li>
+						<c:if test="${currentPage != 1}" >
+							<li><a href="${pageContext.request.contextPath }/board?p=${currentPage - 1 }&chk=${chk }&kwd=${keyword }">◀</a></li>
 						</c:if>
-						
-						<c:forEach var="i" begin = "${pageVo.startPage }" end = "${pageVo.endPage}" step="1">
-						<c:if test="${i == pageVo.thisPage }">
-							<li class="selected"><a href="${pageContext.request.contextPath }/board?a=list&no=${i }&los=${ListOrSearch}">${i }</a></li>
-						</c:if>
-						<c:if test="${i != pageVo.thisPage }">
-							<li><a href="${pageContext.request.contextPath }/board?a=list&no=${i }&los=${ListOrSearch}">${i }</a></li>
-						</c:if>
+						<c:forEach begin="${beginPage }" end="${beginPage + listSize - 1}" var="page">
+							<c:choose>
+								<c:when test="${endPage < page }">
+									<li>${page }</li>
+								</c:when> 
+								<c:when test="${currentPage == page }">
+									<li class="selected">${page }</li>
+								</c:when>
+								<c:otherwise> 
+									<li><a href="${pageContext.request.contextPath }/board?p=${page }&chk=${chk }&kwd=${keyword }">${page }</a></li>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
-						
-						<c:if test="${pageVo.thisPage != pageVo.endPage }">
-							<li><a href="${pageContext.request.contextPath }/board?a=list&no=${pageVo.thisPage+1 }&los=${ListOrSearch}">▶</a></li>
-						</c:if>
+						<c:if test="${currentPage < endPage }" >
+							<li><a href="${pageContext.request.contextPath }/board?p=${currentPage + 1 }&chk=${chk }&kwd=${keyword }">▶</a></li>
+						</c:if>	
 					</ul>
-				</div>
-
+				</div>				
 
 				<c:choose>
 					<c:when test="${authUser.no != null }">
 						<div class="bottom">
-							<c:if test="${ListOrSearch == 1}">
-								<a href="${pageContext.request.contextPath }/board" id="new-book">글목록</a>
-							</c:if>
+							<a href="${pageContext.request.contextPath }/board" id="new-book">글목록</a>
 							<a href="${pageContext.request.contextPath }/board/write" id="new-book">글쓰기</a>
 						</div>					
 					</c:when>
 					
 					<c:otherwise>
 						<div class="bottom">
-							<c:if test="${ListOrSearch == 1}">
-								<a href="${pageContext.request.contextPath }/board" id="new-book">글목록</a>
-							</c:if>
+							<a href="${pageContext.request.contextPath }/board" id="new-book">글목록</a>
 						</div>					
 					</c:otherwise>
 					
