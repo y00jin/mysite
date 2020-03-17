@@ -20,5 +20,4 @@ public class MainController {
 		model.addAttribute("siteVo", siteVo);
 		return "main/index";
 	}
-	
 }
