@@ -18,13 +18,11 @@
 			<div id="content">
 				<div id="site-introduction">
 					<img id="profile"
-						src="${pageContext.request.contextPath }/images/20202164154336.PNG"
+						src="${pageContext.request.contextPath }${siteVo.profile }"
 						style="width: 540px">
-					<h2>MYSTIE</h2>
+					<h2>${siteVo.welcomeMessage } </h2>
 					<p>
-						이 사이트는 프로그램밍 예제 사이트입니다.<br> 메뉴는 사이트 소개ㆍ방명록ㆍ게시판이 있고,<br>
-						1월부터 지금까지 배운 모든 것들을 합쳐 만든 사이트입니다.<br><br>
-						<a href="${pageContext.request.contextPath }/guestbook">방명록</a>에 글 남기기<br>
+						${siteVo.description }
 					</p>
 				</div>
 			</div>
