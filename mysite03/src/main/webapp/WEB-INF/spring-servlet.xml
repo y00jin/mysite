@@ -75,6 +75,6 @@
 	</bean>
 
 	<!-- the mvc resources tag does the magic -->
-	<mvc:resources mapping="/upload-images/**" location="file:/upload/" />
+	<mvc:resources mapping="/images/**" location="file:/upload/" />
 
 </beans>
