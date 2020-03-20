@@ -74,6 +74,6 @@
 	</bean>
 
 	<!-- the mvc resources tag does the magic -->
-	<mvc:resources mapping="/assets/mysite-image/**" location="file:/mysite/images/" />
+	<mvc:resources mapping="/mysite-image/**" location="file:/mysite/images/" />
 
 </beans>
