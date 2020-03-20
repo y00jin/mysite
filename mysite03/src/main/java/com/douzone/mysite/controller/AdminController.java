@@ -36,11 +36,12 @@ public class AdminController {
 			@ModelAttribute SiteVo siteVo,
 			@RequestParam(value="file") MultipartFile multipartFile) {
 		
-		if(siteVo.getProfile() == null) {
+		String url = fileUploadService.restore(multipartFile);
+		if(url.equals("")) {
 			SiteVo vo = adminService.setOrigin();
 			siteVo.setProfile(vo.getProfile());
 		} else {
-			String url = fileUploadService.restore(multipartFile);
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 			System.out.println(url);
 			siteVo.setProfile(url);
 		}
