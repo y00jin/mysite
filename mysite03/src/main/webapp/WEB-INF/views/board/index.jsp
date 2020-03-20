@@ -101,24 +101,20 @@
 							<li><a href="${pageContext.request.contextPath }/board?p=${currentPage + 1 }&chk=${chk }&kwd=${keyword }">▶</a></li>
 						</c:if>	
 					</ul>
-				</div>				
+				</div>
 
-				<c:choose>
-					<c:when test="${authUser.no != null }">
-						<div class="bottom">
-							<a href="${pageContext.request.contextPath }/board" id="new-book">글목록</a>
+				<div class="bottom">
+					<c:choose>
+						<c:when test="${authUser.no != null }">
+							<a href="${pageContext.request.contextPath }/board" id="new-book">글목록</a><a></a>
 							<a href="${pageContext.request.contextPath }/board/write" id="new-book">글쓰기</a>
-						</div>					
-					</c:when>
-					
-					<c:otherwise>
-						<div class="bottom">
+						</c:when>
+						<c:otherwise>
 							<a href="${pageContext.request.contextPath }/board" id="new-book">글목록</a>
-						</div>					
-					</c:otherwise>
-					
-				</c:choose>
-				
+						</c:otherwise>
+					</c:choose>
+				</div>
+
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">

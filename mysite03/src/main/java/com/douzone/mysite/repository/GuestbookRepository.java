@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StopWatch;
 
 import com.douzone.mysite.vo.GuestbookVo;
 
@@ -23,7 +24,14 @@ public class GuestbookRepository {
 	}
 	
 	public List<GuestbookVo> findAll() {
+//		StopWatch sw = new StopWatch();
+//		sw.start();
+		
 		List<GuestbookVo> result = sqlSession.selectList("guestbook.findAll");
+		
+//		sw.stop();
+//		Long totalTime = sw.getTotalTimeMillis();
+//		System.out.print(totalTime);
 		return result;
 	}
 }
