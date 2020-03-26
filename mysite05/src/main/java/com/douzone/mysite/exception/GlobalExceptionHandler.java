@@ -11,8 +11,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.douzone.mysite.controller.MainController;
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	
@@ -37,4 +35,5 @@ public class GlobalExceptionHandler {
 			.forward(request, response);
 		
 	}
+	
 }
