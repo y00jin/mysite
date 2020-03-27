@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <div id="navigation">
 	<ul>
-		<li><a href="${pageContext.request.contextPath }">전유진</a></li>
+		<li><a href="${pageContext.request.contextPath }/">전유진</a></li>
 		<li><a href="${pageContext.request.contextPath }/guestbook">방명록</a></li>
 		<li><a href="${pageContext.request.contextPath }/board">게시판</a></li>
 	</ul>

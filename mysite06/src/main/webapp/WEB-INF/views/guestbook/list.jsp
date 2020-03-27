@@ -45,7 +45,7 @@
 										<td width=100 style="word-break:break-all; text-align:center">${vo.regTime }</td>
 										<td width=25 style="word-break:break-all; text-align:center">
 											<a href="${pageContext.request.contextPath }/guestbook/delete/${vo.no }">
-											<img src='/mysite04/assets/images/recycle.png'/></a></td>
+											<img src='/mysite06/assets/images/recycle.png'/></a></td>
 									</tr>
 									<tr>
 										<td colspan=4>

@@ -51,7 +51,7 @@
 										<c:choose>
 											<c:when test="${vo.orderNo > 1}">
 												<td style="text-align:left; padding-left:${20*vo.depth}px">
-													<img src='/mysite04/assets/images/reply.png'/>
+													<img src='/mysite06/assets/images/reply.png'/>
 											</c:when>
 											<c:otherwise>
 												<td style="text-align:left; padding-left:${0*0}px">
