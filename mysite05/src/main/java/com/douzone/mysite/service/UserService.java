@@ -11,7 +11,7 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	public int join(UserVo vo) {
 		return userRepository.insert(vo);
 	}
@@ -25,9 +25,12 @@ public class UserService {
 	}
 
 	public boolean update(UserVo userVo) {
-		int count =  userRepository.update(userVo);
+		int count = userRepository.update(userVo);
 		return count == 1;
 	}
-	
+
+	public boolean existUser(String email) {
+		return userRepository.find(email) != null;
+	}
 
 }
