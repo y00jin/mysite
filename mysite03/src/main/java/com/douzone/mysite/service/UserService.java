@@ -28,6 +28,10 @@ public class UserService {
 		int count =  userRepository.update(userVo);
 		return count == 1;
 	}
+
+	public boolean existUser(String email) {
+		return userRepository.find(email) != null;
+	}
 	
 
 }

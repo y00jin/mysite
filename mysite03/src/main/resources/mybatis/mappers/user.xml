@@ -37,6 +37,14 @@
 			where no = #{no }
 		]]>
 	</select>
+
+	<select id="find" parameterType="string" resultType="uservo">
+		<![CDATA[
+			select no 
+			from user 
+			where email = #{email}
+		]]>
+	</select>
 	
 	<update id="update" parameterType = "uservo">
 		<choose>
