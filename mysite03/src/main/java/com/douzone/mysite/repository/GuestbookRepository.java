@@ -24,14 +24,12 @@ public class GuestbookRepository {
 	}
 	
 	public List<GuestbookVo> findAll() {
-//		StopWatch sw = new StopWatch();
-//		sw.start();
-		
 		List<GuestbookVo> result = sqlSession.selectList("guestbook.findAll");
-		
-//		sw.stop();
-//		Long totalTime = sw.getTotalTimeMillis();
-//		System.out.print(totalTime);
+		return result;
+	}
+
+	public List<GuestbookVo> findAll(Long startNo) {
+		List<GuestbookVo> result = sqlSession.selectList("guestbook.findAllByNo", startNo);
 		return result;
 	}
 }

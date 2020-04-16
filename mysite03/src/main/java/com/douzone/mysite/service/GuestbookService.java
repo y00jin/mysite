@@ -25,5 +25,16 @@ public class GuestbookService {
 	public int delete(GuestbookVo vo) {
 		return guestbookRepository.delete(vo);
 	}
+
+	public int delete(int no, String password) {
+		GuestbookVo vo = new GuestbookVo();
+		vo.setNo(no);
+		vo.setPassword(password);
+		return guestbookRepository.delete(vo);
+	}
+
+	public List<GuestbookVo> getAllBoard(Long startNo) {
+		return guestbookRepository.findAll(startNo);
+	}
 	
 }

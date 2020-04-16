@@ -47,7 +47,7 @@
 					<c:set var = 'count' value='${fn:length(map.list) }'/>
 							<c:forEach items='${list }'  var='vo' varStatus='status'>
 								<tr>
-									<td>${vo.no}</td>
+									<td>${vo.no }</td>
 										<c:choose>
 											<c:when test="${vo.orderNo > 1}">
 												<td style="text-align:left; padding-left:${20*vo.depth}px">
