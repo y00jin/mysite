@@ -127,6 +127,7 @@ $(function() {
 						
 						// 비밀번호가 틀린 경우
 						$('#dialog-delete-form p.validateTips.error').show();
+						$('#password-delete').val('');
 					},
 					error: function(xhr, status, e) {
 						console.error(status + ":" + e);
@@ -139,7 +140,8 @@ $(function() {
 		},
 		close: function() {
 			$("#hidden-no").val('');
-			$('#password-delete').val('');		
+			$('#password-delete').val('');	
+			$('#dialog-delete-form p.validateTips.error').hide();
 		}
 	});
 	
