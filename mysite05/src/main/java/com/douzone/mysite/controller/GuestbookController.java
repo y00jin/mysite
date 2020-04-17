@@ -43,4 +43,12 @@ public class GuestbookController {
 		guestbookService.delete(vo);
 		return "redirect:/guestbook";
 	}
+	
+	@RequestMapping(value = "/spa")
+	public String listSpa(Model model) {
+//		List<GuestbookVo> list = guestbookService.getAllBoard();
+//		model.addAttribute("list",list);
+		return "guestbook/list-spa";
+	}
+
 }
